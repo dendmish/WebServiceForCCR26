@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>
+        CCR26 Report
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <a href="/">
+        Prediction
+    </a>
+
+    <a href="/report">
+        Report
+    </a>
+
+</nav>
+
+<div class="report-container">
+
+    <h1>
+        CCR26 Customer Churn Prediction
+    </h1>
+
+    <p class="report-subtitle">
+        Machine Learning Project Report
+    </p>
+
+    <div class="section">
+
+    <h2>Contents</h2>
+
+    <ul>
+
+        <li>Business Problem</li>
+
+        <li>Dataset</li>
+
+        <li>Exploratory Data Analysis</li>
+
+        <li>Statistical Analysis</li>
+
+        <li>Feature Selection</li>
+
+        <li>Machine Learning Models</li>
+
+        <li>Error Analysis</li>
+
+        <li>Final Results</li>
+
+        <li>Conclusion</li>
+
+    </ul>
+
+</div>
+
+    <div class="section">
+
+        <h2>
+            1. Business Problem
+        </h2>
+
+        <p>
+            Customer churn prediction is a critical business task.
+            The goal is to identify customers likely to leave the company
+            and support retention strategies.
+        </p>
+
+    </div>
+
+    <div class="section">
+
+        <h2>
+            2. Dataset
+        </h2>
+
+        <p>
+            The dataset contains demographic and behavioral customer information.
+        </p>
+
+        <ul>
+
+            <li>Age</li>
+
+            <li>Tenure</li>
+
+            <li>Usage Frequency</li>
+
+            <li>Support Calls</li>
+
+            <li>Payment Delay</li>
+
+            <li>Total Spend</li>
+
+            <li>Last Interaction</li>
+
+            <li>Gender</li>
+
+        </ul>
+
+        <p>
+            Target variable:
+            Customer Churn
+        </p>
+
+    </div>
+
+    <div class="section">
+
+    <h2>
+        3. Exploratory Data Analysis
+    </h2>
+
+    <p>
+        Exploratory analysis revealed that customers with higher payment delays
+        and more support calls are more likely to churn.
+    </p>
+
+<img
+    src="{{ url_for('static', filename='images/image1.png') }}"
+    class="report-image"
+>
+
+<p class="image-caption">
+    Figure 1. Distribution of customer tenure.
+    Customers are distributed relatively evenly across different service durations.
+</p>
+
+<img
+    src="{{ url_for('static', filename='images/image3.png') }}"
+    class="eda-image"
+>
+
+<p class="image-caption">
+    Figure 2. Age distribution grouped by churn status.
+    Age alone shows only moderate separation between churned and retained customers.
+</p>
+
+<img
+    src="{{ url_for('static', filename='images/image4.png') }}"
+    class="report-image"
+>
+
+<p class="image-caption">
+    Figure 3. Tenure versus churn.
+    Customers with longer tenure tend to remain with the company more frequently.
+</p>
+
+<img
+    src="{{ url_for('static', filename='images/image5.png') }}"
+    class="report-image"
+>
+
+<p class="image-caption">
+    Figure 4. Usage Frequency versus churn.
+    More active customers demonstrate a lower probability of churn.
+</p>
+
+<img
+    src="{{ url_for('static', filename='images/image6.png') }}"
+    class="report-image"
+>
+
+<p class="image-caption">
+    Figure 5. Support Calls versus churn.
+    Frequent support interactions are associated with higher churn rates.
+</p>
+
+<img
+    src="{{ url_for('static', filename='images/image7.png') }}"
+    class="report-image"
+>
+
+<p class="image-caption">
+    Figure 6. Payment Delay versus churn.
+    Payment delay demonstrates the strongest separation between churned and retained customers.
+</p>
+
+<img
+    src="{{ url_for('static', filename='images/image8.png') }}"
+    class="report-image"
+>
+
+<p class="image-caption">
+    Figure 7. Total Spend versus churn.
+    Spending behavior differs between churned and active customers.
+</p>
+
+<img
+    src="{{ url_for('static', filename='images/image9.png') }}"
+    class="report-image"
+>
+
+<p class="image-caption">
+    Figure 8. Last Interaction versus churn.
+    Customer activity recency influences churn probability.
+</p>
+
+</div>
+
+    <div class="section">
+
+        <h2>
+            4. Statistical Analysis
+        </h2>
+
+        <p>
+    To investigate the statistical properties...
+</p>
+
+<h3 class="subsection-title">
+    Kolmogorov-Smirnov Test
+</h3>
+
+<p>
+    The Kolmogorov–Smirnov test was used to evaluate whether
+    selected continuous variables follow a uniform distribution.
+</p>
+
+<ul>
+    <li>Age</li>
+    <li>Last Interaction</li>
+</ul>
+
+<p>
+    For both variables, the obtained p-values were below 0.05.
+    Therefore, the null hypothesis was rejected,
+    indicating that the distributions significantly differ
+    from a uniform distribution.
+</p>
+
+<h3 class="subsection-title">
+    Chi-Square Test
+</h3>
+
+<p>
+    Chi-Square tests were performed for several categorical
+    and discretized behavioral features.
+</p>
+
+<ul>
+    <li>Usage Frequency</li>
+    <li>Support Calls</li>
+    <li>Payment Delay</li>
+</ul>
+
+<p>
+    All tests produced statistically significant results
+    (p-value &lt; 0.05), confirming the presence of meaningful
+    structure within the data and supporting the usefulness
+    of these variables for churn prediction.
+</p>
+
+    </div>
+
+   <div class="section">
+
+    <h2>
+        5. Feature Selection
+    </h2>
+
+    <img
+    src="{{ url_for('static', filename='images/image11.png') }}"
+    class="feature-image"
+>
+
+<p class="image-caption">
+    Figure 9. Random Forest feature importance.
+    Payment Delay, Support Calls, Tenure and Usage Frequency
+    were identified as the most influential predictors
+    of customer churn.
+</p>
+
+<p>
+    Feature importance analysis showed that Payment Delay
+    contributes the most to churn prediction, followed by
+    Support Calls, Tenure and Usage Frequency.
+</p>
+
+<br>
+
+<p>
+    Based on the results of feature selection,
+    the following variables were chosen for further modeling:
+</p>
+
+<ul>
+    <li>Payment Delay</li>
+    <li>Support Calls</li>
+    <li>Tenure</li>
+    <li>Usage Frequency</li>
+    <li>Gender_Male</li>
+</ul>
+</div>
+
+   <div class="section">
+
+    <h2>
+        6. Machine Learning Models
+    </h2>
+
+<p>
+    Multiple machine learning algorithms were evaluated,
+    including Logistic Regression, Polynomial Logistic Regression,
+    KNN, Random Forest, SVM and LightGBM.
+</p>
+
+<p>
+    Hyperparameter optimization was performed using GridSearchCV
+    where applicable.
+</p>
+
+<img
+    src="{{ url_for('static', filename='images/image12.png') }}"
+    class="report-image"
+>
+
+<p class="image-caption">
+    Figure 10. ROC-AUC scores obtained during SVM GridSearch.
+    The RBF kernel consistently outperformed the linear kernel,
+    while increasing parameter C improved model performance.
+</p>
+<p>
+    The best SVM configuration was obtained with
+    kernel = RBF and C = 10,
+    achieving ROC-AUC = 0.9722.
+</p>
+
+   <img
+    src="{{ url_for('static', filename='images/image13.png') }}"
+    class="report-image"
+>
+
+<p class="image-caption">
+    Figure 11. Effect of training sample size on SVM performance.
+    Model quality stabilizes after a relatively small fraction
+    of the training data is used.
+</p>
+<p>
+    Additional experiments demonstrated that SVM performance
+    reaches a plateau after approximately 5–10% of the available
+    training observations, indicating that the dataset already
+    contains sufficient information for effective classification.
+</p>
+</div>
+
+   <div class="section">
+
+    <h2>
+        7. Error Analysis
+    </h2>
+
+<p>
+    A detailed error analysis was conducted to investigate
+    observations misclassified by Polynomial Logistic Regression
+    but correctly classified by KNN.
+</p>
+
+<p>
+    The objective was to identify nonlinear patterns
+    that could not be captured by linear decision boundaries.
+</p>
+
+    <img
+    src="{{ url_for('static', filename='images/image14.png') }}"
+    class="report-image"
+>
+
+<p class="image-caption">
+    Figure 12. Distribution of Tenure for observations
+    misclassified by Logistic Regression but correctly classified by KNN.
+</p>
+
+<img
+    src="{{ url_for('static', filename='images/image15.png') }}"
+    class="report-image"
+>
+
+<p class="image-caption">
+    Figure 13. Usage Frequency distribution for observations
+    misclassified by Logistic Regression but correctly classified by KNN.
+</p>
+
+<img
+    src="{{ url_for('static', filename='images/image16.png') }}"
+    class="report-image"
+>
+
+<p class="image-caption">
+    Figure 14. Support Calls distribution for observations
+    misclassified by Logistic Regression but correctly classified by KNN.
+</p>
+<p>
+    The largest differences between correctly and incorrectly
+    classified observations were observed for:
+</p>
+
+<ul>
+    <li>Tenure</li>
+    <li>Usage Frequency</li>
+    <li>Support Calls</li>
+</ul>
+
+<p>
+    These findings indicate the presence of local nonlinear
+    relationships in the data. Such patterns are effectively
+    captured by KNN, while linear models struggle to represent them.
+</p>
+</div>
+
+    <div class="section">
+
+    <h2>
+        8. Final Results
+    </h2>
+
+    <p>
+        LightGBM achieved the highest ROC-AUC score.
+    </p>
+
+<img
+    src="{{ url_for('static', filename='images/image17.png') }}"
+    class="final-image"
+>
+
+<p class="image-caption">
+    Figure 15. Performance comparison of all evaluated models.
+</p>
+
+<p>
+    The comparison demonstrates that nonlinear machine learning
+    algorithms substantially outperform linear approaches
+    on the customer churn prediction task.
+</p>
+
+<p>
+    LightGBM achieved the best overall performance,
+    followed by Random Forest and KNN.
+</p>
+<div class="best-model-box">
+
+    <h3>
+        Best Model: LightGBM
+    </h3>
+
+    <p>
+        ROC-AUC = 0.9846
+    </p>
+
+</div>
+</div>
+
+    <div class="section">
+
+<h2>
+    9. Conclusion
+</h2>
+
+<p>
+    This project covered the complete machine learning pipeline
+    for customer churn prediction, including:
+</p>
+
+<ul>
+
+    <li>Exploratory Data Analysis (EDA)</li>
+
+    <li>Statistical testing</li>
+
+    <li>Feature selection</li>
+
+    <li>Machine learning model development</li>
+
+    <li>Performance evaluation and comparison</li>
+
+</ul>
+
+<p>
+    The most influential factors affecting churn were:
+</p>
+
+<ul>
+
+    <li>Payment Delay</li>
+
+    <li>Support Calls</li>
+
+    <li>Tenure</li>
+
+    <li>Usage Frequency</li>
+
+</ul>
+
+<p>
+    LightGBM achieved the best overall performance
+    with ROC-AUC = 0.9846 and was selected as the final model.
+</p>
+
+<p>
+    The trained model was saved in PKL format and integrated
+    into a Flask web application, enabling real-time customer
+    churn prediction through a user-friendly browser interface.
+</p>

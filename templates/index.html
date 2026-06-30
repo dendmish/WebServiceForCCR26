@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>
+        Customer Churn Prediction
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <a href="/">
+        Prediction
+    </a>
+
+    <a href="/report">
+        Report
+    </a>
+
+</nav>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>
+            Customer Churn Prediction
+        </h1>
+
+        <p class="subtitle">
+            Predict the probability of customer churn using Machine Learning
+        </p>
+
+        <form action="/form_predict" method="POST">
+
+            <label>Payment Delay</label>
+            <input
+                type="number"
+                name="payment_delay"
+                required
+            >
+
+            <label>Support Calls</label>
+            <input
+                type="number"
+                name="support_calls"
+                required
+            >
+
+            <label>Tenure</label>
+            <input
+                type="number"
+                name="tenure"
+                required
+            >
+
+            <label>Usage Frequency</label>
+            <input
+                type="number"
+                name="usage_frequency"
+                required
+            >
+
+            <label>Gender</label>
+
+            <select name="gender_male">
+
+                <option value="1">
+                    Male
+                </option>
+
+                <option value="0">
+                    Female
+                </option>
+
+            </select>
+
+            <button type="submit">
+                Predict Churn
+            </button>
+
+        </form>
+
+    </div>
+
+    {% if prediction is defined %}
+
+    <div class="result-card">
+
+        <h2>
+            Prediction Result
+        </h2>
+
+        {% if prediction == 1 %}
+
+        <div class="danger">
+
+            Customer is likely to churn
+
+        </div>
+
+        {% else %}
+
+        <div class="safe">
+
+            Customer is likely to stay
+
+        </div>
+
+        {% endif %}
+
+        <p>
+
+            Churn Probability:
+
+            <strong>
+                {{ (probability * 100)|round(2) }}%
+            </strong>
+
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>
