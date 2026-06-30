@@ -2,12 +2,20 @@ from flask import Flask, request, jsonify, render_template
 
 import pandas as pd
 import joblib
+import os
 
 app = Flask(__name__)
 
 # Загрузка модели и списка признаков
-model = joblib.load('churn_pipeline (1).pkl')
-features = joblib.load('features.pkl')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+model = joblib.load(
+    os.path.join(BASE_DIR, "churn_pipeline (1).pkl")
+)
+
+features = joblib.load(
+    os.path.join(BASE_DIR, "features.pkl")
+)
 
 
 @app.route('/')
